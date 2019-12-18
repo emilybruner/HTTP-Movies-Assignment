@@ -11,6 +11,8 @@ const initialMovie = {
 
 const UpdateMovie = props => {
     const [movie, setMovie] = useState(initialMovie);
+
+
     useEffect(() => {
       const movieToEdit = props.movies.find(
         e => `${e.id}` === props.match.params.id
@@ -36,7 +38,7 @@ const UpdateMovie = props => {
     e.preventDefault();
 
     axios
-    .put(`http://localhost:5000/movies/${movie.id}`, movie)
+    .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
     .then(res => {
         const updatedList = props.movies.map(item => {
             if(item.id === movie.id) {
@@ -83,7 +85,7 @@ return (
             onChange={handleChanges}
             placeholder='stars'
             />
-            <button>Edit</button>
+            <button>Submit Changes</button>
         </form>
     </div>
 )
