@@ -6,8 +6,9 @@ const initialMovie = {
     title: '',
     director: '',
     metascore: '',
-    stars: ''
+    stars: []
 }
+
 
 const UpdateMovie = props => {
     const [movie, setMovie] = useState(initialMovie);
@@ -34,25 +35,27 @@ const UpdateMovie = props => {
         })
     }
 
+    const handleStars = e => {
+        setMovie({
+            ...movie, 
+            stars: e.target.value.split(',')
+        })
+    }
+
     const handleSubmit = e => {
     e.preventDefault();
 
     axios
     .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
     .then(res => {
-        const updatedList = props.movies.map(item => {
-            if(item.id === movie.id) {
-                return item = res.data
-            } else {
-                return item
-            }
-        })
-        props.setMovies(updatedList);
+        setMovie(res.data);
+        props.history.push('/');
     })
     .catch(err => console.log(err))
 
-    props.history.push('/');
+    
 }
+
 
 return (
     <div>
@@ -82,8 +85,9 @@ return (
             type='text' 
             name='stars'
             value={movie.stars}
-            onChange={handleChanges}
             placeholder='stars'
+            onChange={handleStars}
+            
             />
             <button>Submit Changes</button>
         </form>
